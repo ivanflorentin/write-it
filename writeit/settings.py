@@ -2,14 +2,9 @@
 # Django settings for writeit project.
 import sys
 import os
-from django.conf.global_settings import LANGUAGES
-from django.utils.translation import to_locale
 DEBUG = True
 TASTYPIE_FULL_DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '^1rqg8ctiq=#11c*=1mz5pyyry%)t%z^%nrhmh=q%g@r@bej1_'
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -20,7 +15,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'writeit.db',                    # Or path to database file if using sqlite3.
+        'NAME': '/data/writeit.db',                    # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -37,22 +32,20 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Asuncion'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'es'
 
-LOCALE_PATHS = [
-    os.path.join(os.path.dirname(os.path.dirname(__file__)), 'locale')
-]
+gettext = lambda s: s
 
-# The code below sets LANGUAGES to only those we have translations
-# If someone's browser sends 'Accept-Language: es', that means that it
-# will be found in this list, but since there are no translations for 'es'
-# it'll fall back to LANGUAGE_CODE.  However, if there is no 'es' in
-# LANGUAGES, then Django will attempt to do a best match.
-LANGUAGES = [l for l in LANGUAGES if os.path.exists(os.path.join(LOCALE_PATHS[0], to_locale(l[0])))]
+LANGUAGES = (
+    ('en', gettext('English')),
+    ('es', gettext(u'Español')),
+    ('ar', gettext(u'العربية')),
+    ('fr', gettext(u'Français'))
+    )
 
 SITE_ID = 1
 
@@ -138,6 +131,9 @@ PIPELINE_CSS = {
     }
 }
 
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = '^1rqg8ctiq=#11c*=1mz5pyyry%)t%z^%nrhmh=q%g@r@bej1_'
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -157,7 +153,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
     'writeit.context_processors.web_api_settings',
-    'writeit.context_processors.google_analytics_settings',
     )
 
 MIDDLEWARE_CLASSES = (
@@ -171,7 +166,6 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'subdomains.middleware.SubdomainURLRoutingMiddleware',
-    'writeit.middleware.SubdomainTemplateOverrideMiddleware',
 )
 
 ROOT_URLCONF = 'nuntium.subdomain_urls'
@@ -186,7 +180,9 @@ SUBDOMAIN_URLCONFS = {
 WSGI_APPLICATION = 'writeit.wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
 )
 TESTING = 'test' in sys.argv
 
@@ -314,10 +310,10 @@ TEST_POPIT_API_URL = "http://%s.%s.xip.io:%s/api" % (
     )
 
 # Email settings
-DEFAULT_FROM_EMAIL = 'mailer@example.com'
+DEFAULT_FROM_EMAIL = 'mailer@parlamentoabierto.org.py'
 
 # DEFAULT_FROM_DOMAIN
-DEFAULT_FROM_DOMAIN = 'mailit.ciudadanointeligente.org'
+DEFAULT_FROM_DOMAIN = 'mailit.parlamentoiabierto.org.py'
 
 # In some cases it is needed that all emails come from one single
 # email address, such is the case when you have just verified a single sender
@@ -371,8 +367,6 @@ INCOMING_EMAIL_LOGGING = 'None'
 EXTRA_APPS = ()
 
 
-GOOGLE_ANALYTICS_PROPERTY_ID = None # Override this in local_settings.py or environment.
-
 # SOCIAL AUTH DETAILS
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Key'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'S3Cr3t'
@@ -382,7 +376,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     )
 
-SESSION_COOKIE_DOMAIN = '.127.0.0.1.xip.io'
+SESSION_COOKIE_DOMAIN = '.parlamentoiabierto.org.py'
 
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_ENABLE_UTC = True
@@ -436,9 +430,6 @@ if 'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY' in os.environ:
 
 if 'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET' in os.environ:
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ['SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET']
-
-if 'GOOGLE_ANALYTICS_PROPERTY_ID' in os.environ:
-    GOOGLE_ANALYTICS_PROPERTY_ID = os.environ['GOOGLE_ANALYTICS_PROPERTY_ID']
 
 #Email settings
 if 'DEFAULT_FROM_EMAIL' in os.environ:
