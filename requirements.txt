@@ -1,5 +1,5 @@
 urllib3
-Django #==1.6.10
+Django==1.6.10
 django-plugins
 South
 -e git://github.com/mysociety/popit-django.git#egg=popit-django
