@@ -313,7 +313,7 @@ TEST_POPIT_API_URL = "http://%s.%s.xip.io:%s/api" % (
 DEFAULT_FROM_EMAIL = 'mailer@parlamentoabierto.org.py'
 
 # DEFAULT_FROM_DOMAIN
-DEFAULT_FROM_DOMAIN = 'mailit.parlamentoiabierto.org.py'
+DEFAULT_FROM_DOMAIN = 'parlamentoiabierto.org.py'
 
 # In some cases it is needed that all emails come from one single
 # email address, such is the case when you have just verified a single sender
